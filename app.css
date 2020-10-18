@@ -1,0 +1,33 @@
+/* Your styles should be mobile-first and responsive */
+
+/** 
+  * If you are unclear on how to utilize a mobile-first, responsive technique to write your CSS, here is an example: 
+  *
+  * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
+  *
+*/
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+header {
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  border: 1px solid gray;
+  margin: 15px auto;
+  padding: 10px;
+}
+
+.correct {
+  color: green;
+  font-weight: bold;
+}
+
+input[type=submit] {
+  margin-top: 16px;
+}
