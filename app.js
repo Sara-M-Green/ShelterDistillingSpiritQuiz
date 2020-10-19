@@ -76,10 +76,9 @@ const store = {
  */
 
 /********** TEMPLATE GENERATION FUNCTIONS **********/
-
 // These functions return HTML templates
 
-//loads start quiz screen when page is opened up
+//loads start quiz HTML when page is opened up
 function startQuiz(){
   $( "main" ).html(`
   <div class="container">
@@ -88,41 +87,81 @@ function startQuiz(){
   </div>`);
 }
 
-const questionTemplate = `
-<div class="container">
-  <h3>Question <span>1</span>/5</h3>
-  <form>
-    <p class="question-text">What is the answer to this question?</p>
-      <input type="radio" name="answer" value="answer1">
-      <label for="answer1">Answer 1</label><br>
-      <input type="radio" name="answer" value="answer2">
-      <label for="answer1">Answer 2</label><br>
-      <input type="radio" name="answer" value="answer3">
-      <label for="answer1">Answer 3</label><br>
-      <input type="radio" name="answer" value="answer4">
-      <label for="answer1">Answer 4</label><br>
-      <input type="submit">
-  </form>
-</div>
-`
+function generateQuestionTemplate(){
+  let currentQuestion = store.questions[store.questionNumber];
+  return `
+  <div class="container">
+    <h3>Question <span>1</span>/5</h3>
+    <form>
+      <p class="question-text">${currentQuestion.question}</p>
+      ${generateAnswerTemplate()}
 
+      <input id="submit-btn" type="submit"></input>
+    </form>
+  </div>
+  `
+}
+
+function generateAnswerTemplate() {
+  let answers = store.questions[store.questionNumber].answers
+  const answerArray = [];
+  for(let i = 0; i < answers.length; i++){
+    answerArray.push(`
+    <input type="radio" name="answer" value="${answers[i]}"></input>
+    <label for="answer${i+1}">${answers[i]}</label><br>`)
+  }
+  return answerArray;
+}
+
+
+function findSelectedAnswer(){
+  const correctAnswer = store.questions[store.questionNumber].correctAnswer;
+  const selectedAnswer = $('input[type=radio]:checked').val();
+  if(selectedAnswer === correctAnswer){
+    console.log('correct');
+  } else {
+    console.log('incorrect');
+  }
+} 
+  
+// const item = STORE.find(item => item.id === itemId);
+
+
+//This function changes the HTML in our main section with the question template
 function displayQuestion(){
+  const questionTemplate = generateQuestionTemplate(store);
   $('main').html(questionTemplate);
 }
 
 
 /********** RENDER FUNCTION(S) **********/
-
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
-startQuiz();
+function render(){
+  startQuiz();
+  generateQuestion();
+  checkAnswer();
+}
 
 
-
-
+render();
 /********** EVENT HANDLER FUNCTIONS **********/
-
 // These functions handle events (submit, click, etc)
-$("#start-btn").click(function(){
-  console.log('start button clicked');
-  displayQuestion();
-})
+
+function generateQuestion(question){
+  $("#start-btn").click(function(){
+    console.log('start button clicked');
+    displayQuestion();
+  });
+}
+
+function checkAnswer(){
+  $('main').on("click", "#submit-btn", function(event){
+    event.preventDefault();
+    console.log('submit clicked');
+    findSelectedAnswer()
+    const currentQuestion = store.questionNumber += 1;
+    displayQuestion();
+  });
+}
+
+
