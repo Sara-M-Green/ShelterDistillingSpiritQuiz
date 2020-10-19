@@ -107,16 +107,24 @@ function generateAnswerTemplate() {
   const answerArray = [];
   for(let i = 0; i < answers.length; i++){
     answerArray.push(`
-    <input type="radio" name="answer" value="answer${i+1}"></input>
+    <input type="radio" name="answer" value="${answers[i]}"></input>
     <label for="answer${i+1}">${answers[i]}</label><br>`)
   }
   return answerArray;
 }
 
 
+function findSelectedAnswer(){
+  const correctAnswer = store.questions[store.questionNumber].correctAnswer;
+  const selectedAnswer = $('input[type=radio]:checked').val();
+  if(selectedAnswer === correctAnswer){
+    console.log('correct');
+  } else {
+    console.log('incorrect');
+  }
+} 
   
-  
-
+// const item = STORE.find(item => item.id === itemId);
 
 
 //This function changes the HTML in our main section with the question template
@@ -126,23 +134,13 @@ function displayQuestion(){
 }
 
 
-
-
-
 /********** RENDER FUNCTION(S) **********/
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
-
-
-
 function render(){
   startQuiz();
   generateQuestion();
   checkAnswer();
 }
-
-
-
-
 
 
 render();
@@ -157,9 +155,13 @@ function generateQuestion(question){
 }
 
 function checkAnswer(){
-  $('#submit-btn').click(function(event){
+  $('main').on("click", "#submit-btn", function(event){
     event.preventDefault();
-    alert('submit clicked');
+    console.log('submit clicked');
+    findSelectedAnswer()
+    const currentQuestion = store.questionNumber += 1;
+    displayQuestion();
   });
 }
+
 
