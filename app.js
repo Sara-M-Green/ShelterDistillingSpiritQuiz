@@ -81,7 +81,7 @@ const store = {
 //loads start quiz HTML when page is opened up
 function startQuiz(){
   $( "main" ).html(`
-  <div class="container">
+  <div class="container center">
   <h2>Test your knowledge  of Shelter Distilling's spirits to better assist customers and sell more bottles!</h2>
   <button id="start-btn">Start Quiz</button>
   </div>`);
@@ -96,9 +96,10 @@ function generateQuestionTemplate(){
     <form>
       <p class="question-text">${currentQuestion.question}</p>
       ${generateAnswerTemplate()}
+      <p id="answer-required"></p>
       <input id="submit-btn" type="submit"></input>
     </form>
-    <p id="score-display">Current Score: ${store.score}/${store.questions.length}</p>
+    <p class="score-display">Current Score: ${store.score}/${store.questions.length}</p>
   </div>
   `
   } else {
@@ -112,7 +113,7 @@ function generateAnswerTemplate() {
   const answerArray = [];
   for(let i = 0; i < answers.length; i++){
     answerArray.push(`
-    <input type="radio" name="answer" value="${answers[i]}" required></input>
+    <input type="radio" name="answer" value="${answers[i]}" id="${answers[i]}" required></input>
     <label for="${answers[i]}">${answers[i]}</label><br>`)
   }
   return answerArray.join("");
@@ -123,37 +124,39 @@ function generateAnswerTemplate() {
 
 function generateCorrectAnswerHtml(){
   $( "main" ).html(`
-  <div class="container">
+  <div class="container center" >
   <h2>That is correct!</h2>
-  <button id="next-btn">Next Question</button>
+  <p class="score-display">Current Score: ${store.score}/${store.questions.length}</p>
+  <button id="next-btn">Next</button>
   </div>`);
 }
 
 function generateWrongAnswerHtml(){
+
   $( "main" ).html(`
-  <div class="container">
+  <div class="container center">
   <h2>Sorry, that's incorrect.</h2>
   <p>The correct answer was <strong>${store.questions[store.questionNumber-1].correctAnswer}</strong></p>
-  <button id="next-btn">Next Question</button>
+  <p class="score-display">Current Score: ${store.score}/${store.questions.length}</p>
+  <button id="next-btn">Next</button>
   </div>`);
 }
 
-// function requireAnswer(event){
-//   const radios = $('input:radio[name=answer]');
-//   if (radios.filter(':checked').length === 0) {
-//     console.log("answer required!!")
-//   }
-// }
+
 
 function generateNewScore(){
+  let radios = $('input:radio[name=answer]');
   let correctAnswer = store.questions[store.questionNumber-1].correctAnswer;
-  const selectedAnswer = $('input[type=radio]:checked').val();
-  if (selectedAnswer === correctAnswer){
+  let selectedAnswer = $('input[type=radio]:checked').val();
+  if(radios.filter(':checked').length === 0){
+    $('#answer-required').text("Please Choose an Answer");
+    return;
+  } else if (selectedAnswer === correctAnswer){
     store.score += 1;
     generateCorrectAnswerHtml();
   } else {
     generateWrongAnswerHtml();
-  }
+  } 
 }
 
   
@@ -172,7 +175,7 @@ function displayQuestion(){
 
 function displayResults(){
     $( "main" ).html(`
-    <div class="container">
+    <div class="container center">
       <h3>Final Results ${store.score}/${store.questions.length}</h3>
       <button id="restart-btn">Restart Quiz</button>
     </div>`);
@@ -205,7 +208,6 @@ function generateQuestion(question){
 function checkAnswer(){
   $('main').on("click", "#submit-btn", function(event){
     event.preventDefault();
-    // requireAnswer();
     generateNewScore();
     
   });
@@ -220,7 +222,7 @@ function handleNext(){
 
 function restartQuiz(){
   $('main').on("click", "#restart-btn", function(){
-    startQuiz();
+    render();
     store.quizStarted = false;
     store.questionNumber = 0;
     store.score = 0;
