@@ -98,25 +98,42 @@ function generateQuestionTemplate(){
       ${generateAnswerTemplate()}
       <input id="submit-btn" type="submit"></input>
     </form>
+    <p id="score-display">Current Score: ${store.score}/${store.questions.length}</p>
   </div>
   `
   } else {
     displayResults();
   }
-    
 }
+
 
 function generateAnswerTemplate() {
   let answers = store.questions[store.questionNumber-1].answers
   const answerArray = [];
   for(let i = 0; i < answers.length; i++){
     answerArray.push(`
-    <input type="radio" name="answer" value="${answers[i]}"></input>
+    <input type="radio" name="answer" value="${answers[i]}" required></input>
     <label for="answer${i+1}">${answers[i]}</label><br>`)
   }
   return answerArray.join("");
 }
 
+function generateCorrectAnswerHtml(){
+  $( "main" ).html(`
+  <div class="container">
+  <h2>Correct!</h2>
+  <button id="next-btn">Next Question</button>
+  </div>`);
+}
+
+function generateWrongAnswerHtml(){
+  $( "main" ).html(`
+  <div class="container">
+  <h2>Sorry, that's incorrect!</h2>
+  <p>The correct answer was ${store.questions[store.questionNumber-1].correctAnswer}</p>
+  <button id="next-btn">Next Question</button>
+  </div>`);
+}
 
 
 function generateNewScore(){
@@ -124,11 +141,14 @@ function generateNewScore(){
   const selectedAnswer = $('input[type=radio]:checked').val();
   if(selectedAnswer === correctAnswer){
     store.score += 1;
-    console.log("Correct! Current Score: " + store.score);
+    generateCorrectAnswerHtml();
+    alert("Correct! Current Score: " + store.score);
   } else {
-    console.log("Incorrect. CurrentScore: " + store.score);
+    generateWrongAnswerHtml();
+    alert("Incorrect. CurrentScore: " + store.score);
   }
 }
+
   
 function nextQuestion(){
   if (store.questionNumber <= store.questions.length){
@@ -147,7 +167,7 @@ function displayResults(){
     $( "main" ).html(`
     <div class="container">
       <h3>Final Results ${store.score}/${store.questions.length}</h3>
-      <button>Restart Quiz</button>
+      <button id="restart-btn">Restart Quiz</button>
     </div>`);
   }
 
@@ -158,6 +178,7 @@ function render(){
   startQuiz();
   generateQuestion();
   checkAnswer();
+  restartQuiz();
 }
 
 
@@ -166,7 +187,7 @@ render();
 // These functions handle events (submit, click, etc)
 
 function generateQuestion(question){
-  $("#start-btn").click(function(){
+  $("main").on("click", "#start-btn", function(){
     store.quizStarted = true;
     store.questionNumber = 1;
     displayQuestion();
@@ -182,4 +203,11 @@ function checkAnswer(){
   });
 }
 
-
+function restartQuiz(){
+  $('main').on("click", "#restart-btn", function(){
+    startQuiz();
+    store.quizStarted = false;
+    store.questionNumber = 0;
+    store.score = 0;
+  });
+}
