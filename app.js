@@ -121,7 +121,7 @@ function generateAnswerTemplate() {
 function generateCorrectAnswerHtml(){
   $( "main" ).html(`
   <div class="container">
-  <h2>Correct!</h2>
+  <h2>That is correct!</h2>
   <button id="next-btn">Next Question</button>
   </div>`);
 }
@@ -129,8 +129,8 @@ function generateCorrectAnswerHtml(){
 function generateWrongAnswerHtml(){
   $( "main" ).html(`
   <div class="container">
-  <h2>Sorry, that's incorrect!</h2>
-  <p>The correct answer was ${store.questions[store.questionNumber-1].correctAnswer}</p>
+  <h2>Sorry, that's incorrect.</h2>
+  <p>The correct answer was <strong>${store.questions[store.questionNumber-1].correctAnswer}</strong></p>
   <button id="next-btn">Next Question</button>
   </div>`);
 }
@@ -142,10 +142,8 @@ function generateNewScore(){
   if(selectedAnswer === correctAnswer){
     store.score += 1;
     generateCorrectAnswerHtml();
-    alert("Correct! Current Score: " + store.score);
   } else {
     generateWrongAnswerHtml();
-    alert("Incorrect. CurrentScore: " + store.score);
   }
 }
 
@@ -178,6 +176,7 @@ function render(){
   startQuiz();
   generateQuestion();
   checkAnswer();
+  handleNext();
   restartQuiz();
 }
 
@@ -198,6 +197,12 @@ function checkAnswer(){
   $('main').on("click", "#submit-btn", function(event){
     event.preventDefault();
     generateNewScore();
+    
+  });
+}
+
+function handleNext(){
+  $('main').on('click', '#next-btn', function(){
     nextQuestion();
     displayQuestion();
   });
