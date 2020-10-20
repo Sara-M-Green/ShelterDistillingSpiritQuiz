@@ -51,7 +51,7 @@ const store = {
         '92',
         '94'
       ],
-      correctAnswer: 'American Oak'
+      correctAnswer: '90'
     }
     
   ],
@@ -88,50 +88,68 @@ function startQuiz(){
 }
 
 function generateQuestionTemplate(){
-  let currentQuestion = store.questions[store.questionNumber];
-  return `
+  let currentQuestion = store.questions[store.questionNumber-1];
+  if (store.questionNumber != 0 && store.questionNumber <= store.questions.length){
+    return `
   <div class="container">
-    <h3>Question <span>1</span>/5</h3>
+    <h3>Question ${store.questionNumber}/${store.questions.length}</h3>
     <form>
       <p class="question-text">${currentQuestion.question}</p>
       ${generateAnswerTemplate()}
-
       <input id="submit-btn" type="submit"></input>
     </form>
   </div>
   `
+  } else {
+    displayResults();
+  }
+    
 }
 
 function generateAnswerTemplate() {
-  let answers = store.questions[store.questionNumber].answers
+  let answers = store.questions[store.questionNumber-1].answers
   const answerArray = [];
   for(let i = 0; i < answers.length; i++){
     answerArray.push(`
     <input type="radio" name="answer" value="${answers[i]}"></input>
     <label for="answer${i+1}">${answers[i]}</label><br>`)
   }
-  return answerArray;
+  return answerArray.join("");
 }
 
 
-function findSelectedAnswer(){
-  const correctAnswer = store.questions[store.questionNumber].correctAnswer;
+
+function generateNewScore(){
+  let correctAnswer = store.questions[store.questionNumber-1].correctAnswer;
   const selectedAnswer = $('input[type=radio]:checked').val();
   if(selectedAnswer === correctAnswer){
-    console.log('correct');
+    store.score += 1;
+    console.log("Correct! Current Score: " + store.score);
   } else {
-    console.log('incorrect');
+    console.log("Incorrect. CurrentScore: " + store.score);
   }
-} 
+}
   
-// const item = STORE.find(item => item.id === itemId);
+function nextQuestion(){
+  if (store.questionNumber <= store.questions.length){
+    store.questionNumber +=1;
+  }
+}
 
 
 //This function changes the HTML in our main section with the question template
 function displayQuestion(){
   const questionTemplate = generateQuestionTemplate(store);
-  $('main').html(questionTemplate);
+    $('main').html(questionTemplate);
 }
+
+function displayResults(){
+    $( "main" ).html(`
+    <div class="container">
+      <h3>Final Results ${store.score}/${store.questions.length}</h3>
+      <button>Restart Quiz</button>
+    </div>`);
+  }
 
 
 /********** RENDER FUNCTION(S) **********/
@@ -149,7 +167,8 @@ render();
 
 function generateQuestion(question){
   $("#start-btn").click(function(){
-    console.log('start button clicked');
+    store.quizStarted = true;
+    store.questionNumber = 1;
     displayQuestion();
   });
 }
@@ -157,9 +176,8 @@ function generateQuestion(question){
 function checkAnswer(){
   $('main').on("click", "#submit-btn", function(event){
     event.preventDefault();
-    console.log('submit clicked');
-    findSelectedAnswer()
-    const currentQuestion = store.questionNumber += 1;
+    generateNewScore();
+    nextQuestion();
     displayQuestion();
   });
 }
