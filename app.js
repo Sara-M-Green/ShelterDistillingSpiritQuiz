@@ -113,10 +113,13 @@ function generateAnswerTemplate() {
   for(let i = 0; i < answers.length; i++){
     answerArray.push(`
     <input type="radio" name="answer" value="${answers[i]}" required></input>
-    <label for="answer${i+1}">${answers[i]}</label><br>`)
+    <label for="${answers[i]}">${answers[i]}</label><br>`)
   }
   return answerArray.join("");
 }
+
+
+
 
 function generateCorrectAnswerHtml(){
   $( "main" ).html(`
@@ -135,11 +138,17 @@ function generateWrongAnswerHtml(){
   </div>`);
 }
 
+// function requireAnswer(event){
+//   const radios = $('input:radio[name=answer]');
+//   if (radios.filter(':checked').length === 0) {
+//     console.log("answer required!!")
+//   }
+// }
 
 function generateNewScore(){
   let correctAnswer = store.questions[store.questionNumber-1].correctAnswer;
   const selectedAnswer = $('input[type=radio]:checked').val();
-  if(selectedAnswer === correctAnswer){
+  if (selectedAnswer === correctAnswer){
     store.score += 1;
     generateCorrectAnswerHtml();
   } else {
@@ -196,6 +205,7 @@ function generateQuestion(question){
 function checkAnswer(){
   $('main').on("click", "#submit-btn", function(event){
     event.preventDefault();
+    // requireAnswer();
     generateNewScore();
     
   });
