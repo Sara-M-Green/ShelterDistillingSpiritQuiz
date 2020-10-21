@@ -34,7 +34,7 @@ const store = {
       correctAnswer: 'Stormrider Rum'
     },
     {
-      question: "Which whiskey was set on a mash bill of chocolate and dark malts typically used when brewing stouts and porters and aged for 18 Months?",
+      question: "Which of Shelter Distilling's whiskey was set on a mash bill of chocolate and dark malts typically used when brewing stouts and porters and aged for 18 Months?",
       answers: [
         'High Sierra Whiskey',
         'Wild Rose Whiskey',
@@ -49,7 +49,7 @@ const store = {
         'O\'Pinyon Gin',
         'Eastside Gin',
         'Gin the Third',
-        'Floralia'
+        'Floralia Gin'
       ],
       correctAnswer: 'O\'Pinyon Gin'
     }
