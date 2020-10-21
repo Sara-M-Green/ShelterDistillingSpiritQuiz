@@ -12,9 +12,12 @@
   font-family: Arial, Helvetica, sans-serif
 }
 
-body {
-  background: url(images/barrel-pour.jpg);
-  background-size:cover ;
+html {
+  min-height: 100%;
+  background-image: url(images/barrel-pour.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left center;
 }
 
 header {
@@ -33,26 +36,11 @@ h1 {
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 42px;
   font-weight: 400;
-  margin-top: 5%;
+  margin: 10% 15px 15px 0 ;
 }
 
-.container {
-  border: 1px solid #1f1f1f;
-  border-radius: 15px;
-  margin: 15px auto;
-  padding: 20px 30px;
-  background-color: white;
-  box-shadow: 4px 4px 15px black;
-  max-width: 700px;
-}
-
-.center {
-  text-align: center;
-}
-
-.correct {
-  color: green;
-  font-weight: bold;
+h2 {
+  margin-top: 10px;
 }
 
 button, input[type=submit]{
@@ -64,7 +52,7 @@ button, input[type=submit]{
   text-decoration: none;
   display: inline-block;
   padding: 8px 18px;
-  margin-top: 16px;
+  margin-top: 5px;
 }
 
 button:visited, input[type=submit] {
@@ -81,9 +69,58 @@ button:active, input[type=submit]:active {
   border: 1px solid #adadad
 }
 
+label {
+  line-height: 1.5;
+}
+
+.container {
+  border: 1px solid #1f1f1f;
+  border-radius: 15px;
+  margin: 15px auto;
+  padding: 20px 30px;
+  background-color: white;
+  box-shadow: 4px 4px 15px black;
+  width: 90%;
+  opacity: 0.97;
+}
+
+.center {
+  text-align: center;
+}
+
 #answer-required {
   margin-bottom: 0;
   font-weight: bold;
   color: #ab0009;
 }
 
+/* Responsive styles for desktop */
+@media all and (min-width:600px){
+  p {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  h3 {
+    font-size: 22px;
+  }
+
+label {
+    font-size: 18px;
+  }
+  
+  .container {
+    max-width: 700px;
+  }
+
+  .center {
+    max-width: 500px;
+  }
+
+  #intro-text {
+    font-size: 24px;
+  }
+}

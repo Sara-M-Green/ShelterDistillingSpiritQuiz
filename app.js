@@ -11,7 +11,7 @@ const store = {
         'Granite Rye',
         'Dark Sky Whiskey'
       ],
-      correctAnswer: 'High Sierra Whiskey'
+      correctAnswer: 'Granite Rye'
     },
     {
       question: "Glass Creek Vodka is made from 100% American White Wheat and Belgian Yeast. It has notes of vanilla and stone fruit. How many times is it distilled?",
@@ -24,34 +24,34 @@ const store = {
       correctAnswer: '2'
     },
     {
-      question: "Floralia Gin has floral notes layered with cherry, fig, vanilla and dates. It is aged in a Portugese Port barrel. How long is it aged?",
+      question: "Which of Shelter Distilling's spirits is distilled from molasses and fermented with a Belgian yeast to create a lovely, sugary finish?",
       answers: [
-        '6 months',
-        '8 months',
-        '12 months',
-        '14 months'
+        'Glass Creek Vodka',
+        'Blue Agave',
+        'Black Unicorn Coffee Liqueur',
+        'Stormrider Rum'
       ],
-      correctAnswer: '12 months'
+      correctAnswer: 'Stormrider Rum'
     },
     {
-      question: "Dark Sky is a unique whiskey set on a mash bill of chocolate and dark malts typically used when brewing stouts and porters. It is aged for 18 Months. What kind of barrel is it aged in?",
+      question: "Which whiskey was set on a mash bill of chocolate and dark malts typically used when brewing stouts and porters and aged for 18 Months?",
       answers: [
-        'Hungarian Oak',
-        'American Oak',
-        'Sessile Oak',
-        'European Oak'
+        'High Sierra Whiskey',
+        'Wild Rose Whiskey',
+        'Granite Rye',
+        'Dark Sky Whiskey'
       ],
-      correctAnswer: 'American Oak'
+      correctAnswer: 'Dark Sky Whiskey'
     },
     {
-      question: "Blue agave is 100% Organic Blue Agave sourced from the tequila regions of Mexico. Aged in a used Port Barrel for 8 months. What proof is the Blue Agave?",
+      question: "Which of Shelter Distilling's Gin is described with an Eastern Sierra piney flair and a citrus backbone?",
       answers: [
-        '88',
-        '90',
-        '92',
-        '94'
+        'O\'Pinyon Gin',
+        'Eastside Gin',
+        'Gin the Third',
+        'Floralia'
       ],
-      correctAnswer: '90'
+      correctAnswer: 'O\'Pinyon Gin'
     }
     
   ],
@@ -82,11 +82,12 @@ const store = {
 function startQuiz(){
   $( "main" ).html(`
   <div class="container center">
-  <h2>Test your knowledge  of Shelter Distilling's spirits to better assist customers and sell more bottles!</h2>
+  <h2 id="intro-text">Test your knowledge  of Shelter Distilling's spirits to better assist customers and sell more bottles!</h2>
   <button id="start-btn">Start Quiz</button>
   </div>`);
 }
 
+// creates a template for each question
 function generateQuestionTemplate(){
   let currentQuestion = store.questions[store.questionNumber-1];
   if (store.questionNumber != 0 && store.questionNumber <= store.questions.length){
@@ -107,7 +108,7 @@ function generateQuestionTemplate(){
   }
 }
 
-
+// creates radio buttons for answers to each question
 function generateAnswerTemplate() {
   let answers = store.questions[store.questionNumber-1].answers
   const answerArray = [];
@@ -119,20 +120,18 @@ function generateAnswerTemplate() {
   return answerArray.join("");
 }
 
-
-
-
+// creates a correct answer HTML template
 function generateCorrectAnswerHtml(){
   $( "main" ).html(`
   <div class="container center" >
-  <h2>That is correct!</h2>
+  <h2>That's Correct!</h2>
   <p class="score-display">Current Score: ${store.score}/${store.questions.length}</p>
   <button id="next-btn">Next</button>
   </div>`);
 }
 
+// creates an incorrect answer HTML template
 function generateWrongAnswerHtml(){
-
   $( "main" ).html(`
   <div class="container center">
   <h2>Sorry, that's incorrect.</h2>
@@ -142,8 +141,7 @@ function generateWrongAnswerHtml(){
   </div>`);
 }
 
-
-
+//validates an answer choice has been picked, validates the selected answer to correct answer, updates score and displays answer feedback HTML
 function generateNewScore(){
   let radios = $('input:radio[name=answer]');
   let correctAnswer = store.questions[store.questionNumber-1].correctAnswer;
@@ -159,7 +157,7 @@ function generateNewScore(){
   } 
 }
 
-  
+// moves user onto next question
 function nextQuestion(){
   if (store.questionNumber <= store.questions.length){
     store.questionNumber +=1;
@@ -167,16 +165,18 @@ function nextQuestion(){
 }
 
 
-//This function changes the HTML in our main section with the question template
+// changes the HTML in our main section with the question template
 function displayQuestion(){
   const questionTemplate = generateQuestionTemplate(store);
     $('main').html(questionTemplate);
 }
 
+// displays final results when all questions have been answered
 function displayResults(){
     $( "main" ).html(`
     <div class="container center">
-      <h3>Final Results ${store.score}/${store.questions.length}</h3>
+      <h2>Final Results<h2>
+      <h3>${store.score}/${store.questions.length} Correct Answers</h3>
       <button id="restart-btn">Restart Quiz</button>
     </div>`);
   }
@@ -192,11 +192,14 @@ function render(){
   restartQuiz();
 }
 
-
 render();
+
+
 /********** EVENT HANDLER FUNCTIONS **********/
 // These functions handle events (submit, click, etc)
 
+
+// displays the first question and changes quizStarted to true when START QUIZ button is clicked
 function generateQuestion(question){
   $("main").on("click", "#start-btn", function(){
     store.quizStarted = true;
@@ -205,14 +208,15 @@ function generateQuestion(question){
   });
 }
 
+// compares user answer to correct answer when SUBMIT button is clicked on each question
 function checkAnswer(){
   $('main').on("click", "#submit-btn", function(event){
     event.preventDefault();
     generateNewScore();
-    
   });
 }
 
+// takes user to next question after results feedback is displayed
 function handleNext(){
   $('main').on('click', '#next-btn', function(){
     nextQuestion();
@@ -220,6 +224,7 @@ function handleNext(){
   });
 }
 
+//resets all default values in store, and takes user back to start screen
 function restartQuiz(){
   $('main').on("click", "#restart-btn", function(){
     render();
