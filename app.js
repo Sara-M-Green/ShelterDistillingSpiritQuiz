@@ -34,7 +34,7 @@ const store = {
       correctAnswer: 'Stormrider Rum'
     },
     {
-      question: "Which of Shelter Distilling's whiskey was set on a mash bill of chocolate and dark malts typically used when brewing stouts and porters and aged for 18 Months?",
+      question: "Which of Shelter Distilling's whiskey was set on a mash bill of chocolate and dark malts typically used when brewing stouts and porters and aged for 18 months?",
       answers: [
         'High Sierra Whiskey',
         'Wild Rose Whiskey',
