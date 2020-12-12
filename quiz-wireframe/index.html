@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shelter Distilling Spirit Quiz</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet"
+    type="text/css" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <header>
+    <div>
+        <h1>Shelter Distilling Spirit Quiz</h1>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>Test your knowledge  of Shelter Distilling's spirits to better assist customers and sell more bottles!</h2>
+      <button>Start Quiz</button>
+    </div>
+
+    <div class="container">
+      <h3>Question 1/5</h3>
+      <form action=""></form>
+        <p>Which of Shelter Distilling's whiskeys is NOT a single malt?</p>
+          <input type="radio" id="highSierra" name="q1" value="highSierra">
+          <label for="HighSierra">High Sierra Whiskey</label><br>
+          <input type="radio" id="wildRose" name="q1" value="wildRose">
+          <label for="wildRose">Wild Rose Whiskey</label><br>
+          <input type="radio" id="graniteRye" name="q1" value="graniteRye">
+          <label for="graniteRye">Granite Rye</label><br>
+          <input type="radio" id="darkSky" name="q1" value="darkSky">
+          <label for="darkSky">Dark Sky Whiskey</label><br>
+          <input type="submit">
+      </form>
+      <p>Current Score: <span class="score">0</span>/5</p>
+    </div>
+
+    <div class="container">
+      <h3>Question 1/5 - Results</h3>
+      <form action=""></form>
+        <p>Which of Shelter Distilling's whiskeys is NOT a single malt?</p>
+          <input type="radio" id="highSierra" name="q1" value="highSierra">
+          <label for="HighSierra">High Sierra Whiskey</label><br>
+          <input type="radio" id="wildRose" name="q1" value="wildRose">
+          <label for="wildRose">Wild Rose Whiskey</label><br>
+          <input type="radio" id="graniteRye" name="q1" value="graniteRye" checked>
+          <label for="graniteRye">Granite Rye <span class="correct">- Correct!</span></label><br> 
+          <input type="radio" id="darkSky" name="q1" value="darkSky">
+          <label for="darkSky">Dark Sky Whiskey</label><br>
+      </form>
+      <p>Current Score: <span class="score">1</span>/5</p>
+      <button>Next Question</button>
+    </div>
+
+    <div class="container">
+      <h3>Final Results 1/5</h3>
+      <button>Restart Quiz</button>
+    </div>
+    
+
+  </main>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.js" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
